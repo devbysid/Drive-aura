@@ -9,7 +9,7 @@
 </head>
 
 <body class="custom-body">
-        <form class="booking-form" action="/payment" method="POST">
+        <form class="booking-form" action="/users/cars/payment" method="POST">
             <div class="form-group">
                 <label for="from">From:</label>
                 <input type="text" id="from" name="from" value=<%= car[0].location %> readonly>
@@ -33,7 +33,7 @@
 
             <button type="submit">Proceed to Payment</button>
         </form>
-        <a href="/cars" class="book-button">View Cars</a>
+        <a href="/users/cars" class="book-button">View Cars</a>
 
 </body>
 

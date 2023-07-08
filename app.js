@@ -49,18 +49,14 @@ app.get('/home',(req,res)=>{
 
 
 // routes for users
-app.get('/cars',(req,res)=>{
-    res.render('cars/index');
+app.get('/users/cars',(req,res)=>{
+    res.render('users/cars/index');
 })
 
 //using hard-coded data
-app.get('/cars/:type',(req,res)=>{
-    const {type}=req.params;
-    const cars=data.filter((car)=> car.type==type);
-    res.render('cars/show',{cars});
-})
 
-app.get('/cars/booking/:name',(req,res)=>{
+
+app.get('/users/cars/booking/:name',(req,res)=>{
     const {name}=req.params;
     req.session.name=name;
     if(!req.session.email){
@@ -69,21 +65,21 @@ app.get('/cars/booking/:name',(req,res)=>{
     }
     else{
     const car=data.filter((car)=>car.name==name);
-    res.render('cars/booking',{car});
+    res.render('users/cars/booking',{car});
     }
 })
 
-app.post('/payment',(req,res)=>{
+app.post('/users/cars/payment',(req,res)=>{
     const{days,price}=req.body;
     const amount=days*price;
-    res.render('cars/payment',{amount});
+    res.render('users/cars/payment',{amount});
 })
 
-app.post('/confirmation',(req,res)=>{
+app.post('/users/cars/confirmation',(req,res)=>{
     const {name}= req.session;
     const {status}=req.body;
     const car=data.filter((car)=> car.name==name);
-    res.render('cars/confirmation',{car,status});
+    res.render('users/cars/confirmation',{car,status});
 })
 
 app.get('/user/new',(req,res)=>{
@@ -96,23 +92,28 @@ app.post('/users',(req,res)=>{
     const name=req.session.name;
     if(req.session.name){
       const car=data.filter((car)=>car.name==name);
-      res.render('cars/booking',{car});
+      res.render('users/cars/booking',{car});
     }
     else{
-      res.redirect('/location');
+      res.redirect('/users/cars/location');
     }
 })
 
-app.get('/location',(req,res)=>{
-    res.render('cars/chooseloc');
+app.get('/users/cars/location',(req,res)=>{
+    res.render('users/cars/chooseloc');
 })
 
-app.post('/location',(req,res)=>{
+app.post('/users/cars/location',(req,res)=>{
     const {city} =req.body;
     req.session.city=city;
-    res.redirect('/cars')
+    res.redirect('/users/cars');
 })
 
+app.get('/users/cars/:type',(req,res)=>{
+    const {type}=req.params;
+    const cars=data.filter((car)=> car.type==type);
+    res.render('users/cars/show',{cars});
+})
 
 // app.get('/cars/new',(req,res)=>{
 //     res.render('cars/new');
