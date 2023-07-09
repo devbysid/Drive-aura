@@ -4,6 +4,9 @@ const mongoose=require('mongoose');
 const Car=require('./models/car');
 const session=require('express-session');
 const flash=require('connect-flash');
+const User=require('./models/user');
+const LocalStrategy=require('passport-local');
+const passport=require('passport');
 //temp data
 const data=require('./data');
 
@@ -19,18 +22,19 @@ const sessionOptions={
 app.use((session(sessionOptions)));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));
 
-//res.local
-app.use((req,res,next)=>{
-   
-    res.locals.signUpRequired=req.flash('noSignUp');
-    next(); 
-})
 
 const options={useNewUrlParser: true, useUnifiedTopology: true};
 mongoose.connect('mongodb://127.0.0.1:27017/drive-aura',options)
@@ -42,26 +46,49 @@ mongoose.connect('mongodb://127.0.0.1:27017/drive-aura',options)
 })
 
 
+//res.local
+app.use((req,res,next)=>{
+    
+    res.locals.signUpRequired=req.flash('noSignUp');
+    next(); 
+})
+
+
+app.post('/users/register',async(req,res)=>{
+    const {email,username,password}=req.body;
+    const user=new User({email,username});
+    const newUser=await User.register(user,password);
+    req.session.username=username;
+    const carname=req.session.carname;
+    if(req.session.carname){
+      const car=data.filter((car)=>car.name==carname);
+      res.render('users/cars/booking',{car});
+    }
+    else{
+      res.redirect('/users/cars/location');
+    }
+})
+
+
+
 app.get('/home',(req,res)=>{
     res.render('home');
 })
 
 
+//using hard-coded data
 
 // routes for users
 app.get('/users/cars',(req,res)=>{
     res.render('users/cars/index');
 })
 
-//using hard-coded data
-
-
 app.get('/users/cars/booking/:name',(req,res)=>{
     const {name}=req.params;
-    req.session.name=name;
-    if(!req.session.email){
+    req.session.carname=name;
+    if(!req.session.username){
         req.flash('noSignUp', "YOU NEED TO SIGN UP FIRST !!!");
-        res.redirect('/user/new');
+        res.redirect('/users/register');
     }
     else{
     const car=data.filter((car)=>car.name==name);
@@ -76,28 +103,17 @@ app.post('/users/cars/payment',(req,res)=>{
 })
 
 app.post('/users/cars/confirmation',(req,res)=>{
-    const {name}= req.session;
+    const {carname,username}= req.session;
     const {status}=req.body;
-    const car=data.filter((car)=> car.name==name);
-    res.render('users/cars/confirmation',{car,status});
+    const car=data.filter((car)=> car.name==carname);
+    res.render('users/cars/confirmation',{car,status,username});
 })
 
-app.get('/user/new',(req,res)=>{
-    res.render('users/new')
+app.get('/users/register',(req,res)=>{
+    res.render('users/register')
 })
 
-app.post('/users',(req,res)=>{
-    const {email}=req.body;
-    req.session.email=email;
-    const name=req.session.name;
-    if(req.session.name){
-      const car=data.filter((car)=>car.name==name);
-      res.render('users/cars/booking',{car});
-    }
-    else{
-      res.redirect('/users/cars/location');
-    }
-})
+
 
 app.get('/users/cars/location',(req,res)=>{
     res.render('users/cars/chooseloc');
@@ -115,23 +131,6 @@ app.get('/users/cars/:type',(req,res)=>{
     res.render('users/cars/show',{cars});
 })
 
-// app.get('/cars/new',(req,res)=>{
-//     res.render('cars/new');
-// })
-
-// app.get('/cars/:type',async(req,res)=>{
-//     const {type}=req.params;
-//     const cars=await Car.find({type: type});
-//     res.render('cars/show',{cars});
-// })
-
-
-app.post('/cars', async(req, res) => {
-    console.log(req.body);
-    const newCar=new Car(req.body);
-    await newCar.save();
-    res.redirect('/cars');
-})
 
 // app.use((err, req, res, next)=> {
 //     console.error(err.stack);
@@ -139,12 +138,9 @@ app.post('/cars', async(req, res) => {
 // });
   
 
-// User routes
 
-app.get('/users',async(req,res)=>{
-    const users=await User.find();
-    res.render('users/index');
-})
+
+
 
 app.listen(3000,()=>{
     console.log("Serving On port 3000")
