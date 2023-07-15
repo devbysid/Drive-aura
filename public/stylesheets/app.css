@@ -7,6 +7,7 @@ html{
 body{
     background-color: #60a9ff;
     display:flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
@@ -147,7 +148,7 @@ img{
 }
 
 .form-group{
-    margin: 30px;
+    margin: 20px;
     display: flex;
     align-items: center;
 }
@@ -230,12 +231,11 @@ img{
 .home-page{
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     width: 100vw;
     height: 100vh;
     flex-wrap: wrap;
-    
 }
 
 .homepage-header{
@@ -244,7 +244,6 @@ img{
     display: flex;
     justify-content: space-between;
     margin: 10px 10px;
-
 }
 
 .home-page a{
@@ -296,11 +295,7 @@ img{
 .custom-body{
     display: flex;
     flex-direction: column;
-}
-
-.custom-body p{
-    font-weight: 600;
-    color:red;
+    justify-content: center;
 }
 
 .custom-body a{
@@ -310,3 +305,100 @@ img{
 .custom-body a:hover{
     background-color: #bcdefc;
 }
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar{
+    display: flex;
+    background-color: #016ff9;
+    width: 100%;
+    justify-content: space-between;
+    height: 30px;
+    padding-top: 7px;
+    top: 0;
+    position: fixed;
+    
+}
+
+.navbar a{
+    color: #e1f1ff;
+    margin: 0px 5px;
+    text-decoration: none;
+}
+
+.navbar div{
+    margin: 0px 20px;
+}
+
+.navbar div a span:first-child{
+    margin-right: 30px;
+}
+
+.manager-functions{
+    width: 30%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 15px;
+    margin-top: 30px;
+}
+
+.manager-functions a{
+    width: 50%;
+    margin: 20px;
+    text-align: center;
+}
+
+.red{
+    font-weight: 600;
+    color:red;
+}
+
+.green{
+    font-weight: 600;
+    color:green;
+}
+
+.custom-table {
+    width: 80%;
+    border-collapse: collapse;
+  }
+  
+  .custom-table th, .custom-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+  }
+  
+  .custom-table th {
+    background-color: #f2f2f2;
+  }
+  
+  .custom-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .custom-table tr:hover {
+    background-color: #eaeaea;
+  }
+
+  .custom-table tbody td a{
+    text-decoration: none;
+  }
+
+.car-view{
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+.car-buttons a{
+    background-color: white;
+    margin: 0px 20px;
+}
+  
+  

@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/app.css">
-</head>
-<body class="payment-form">
+<% layout('layouts/boilerplate')%>
+<div class="payment-form">
     <h1>Payment Amount: $<%=amount%></h1>
     <form action="/users/cars/confirmation" method="POST">
         <button type="submit" name="status" value="done">Pay Now</button>
         <button type="submit" name="status" value="pending">Pay Later</button>
     </form>
-</body>
-</html>
+</div>

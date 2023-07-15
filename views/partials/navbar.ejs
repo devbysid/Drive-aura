@@ -1,0 +1,19 @@
+<div class="navbar">
+<div>
+<a href="/home">
+    <span>Drive Aura</span>
+    <span>Home</span>
+</a>
+    <a href="/users/cars/location">View Cars</a>
+</div>
+<div>
+    <%if(!currentUser){%>
+    <a href="/users/login">LogIn</a>
+    <a href="/users/register">SignUp</a>
+    <%}else{%>
+        <a href="/users/logout">Logout</a> 
+    <%}%>
+    
+
+</div>
+</div>

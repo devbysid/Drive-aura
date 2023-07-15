@@ -1,0 +1,2 @@
+// after user logout home page doesn't renders the flash message set in the logout route
+// also the session gets cleared after the logout 

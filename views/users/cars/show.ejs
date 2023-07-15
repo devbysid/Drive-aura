@@ -1,19 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>car.name</title>
-    <link rel="stylesheet" href="/app.css">
-</head>
-<body>
+<% layout('layouts/boilerplate')%>
   <div class="car-list">
       <ul>
         <% cars.forEach((car)=>{ %>
         <div class="border-details">
           <li class="car-details">
             <div class="car-info">
-            <h2><%= car.name %></h2>
+            <h2><%= car.carName %></h2>
             <p>Gear: <%= car.gear %></p>
             <p>Price: <%= car.price %></p>
             <p>Seat: <%= car.seat %></p>
@@ -21,10 +13,8 @@
             </div>
             <div class="car-image" style="background-image: url('<%= car.image %>'); "></div>
         </li>
-        <a href="/users/cars/booking/<%= car.name %>" class="book-button book-now">BOOK NOW</a>
+        <a href="/users/cars/booking/<%= car.carNumber %>" class="book-button book-now">BOOK NOW</a>
     </div>
         <% }); %>
       </ul>
   </div>
-</body>
-</html>

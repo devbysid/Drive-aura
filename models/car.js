@@ -2,17 +2,25 @@ const mongoose=require('mongoose');
 const{ Schema }=mongoose;
 
 const carSchema= new Schema({
-    name: String,
+    carName: String,
     type: {
         type: String,
         enum: ["hatchback","sedan","SUV"]
     },
-    carNumber: String,
+    carNumber:{
+        type: String,
+        unique: true
+    },
     price: Number,
     seat: Number,
-    gear: String
+    gear: String,
+    image: String,
+    location: String,
+    status: {
+        type: String,
+        enum: ["Available", "Not Available"]
+    }
 });
 
-const Car=mongoose.model('Car',carSchema);
 
-module.exports=Car;
+module.exports=mongoose.model('Car',carSchema);

@@ -1,0 +1,16 @@
+<% layout('layouts/boilerplate')%>
+
+    <div class="car-view car-details">
+      <div class="car-info">
+      <h2><%= car.carName %></h2>
+      <p>Gear: <%= car.gear %></p>
+      <p>Price: $<%= car.price %></p>
+      <p>Seat: <%= car.seat %></p>
+      <p>Car Number: <%= car.carNumber %></p>
+      </div>
+      <div class="car-image" style="background-image: url('<%= car.image %>'); "></div>
+  </div>
+  <div class="car-buttons">
+  <a href="/users/cars/booking/<%= car.carNumber %>" class="book-button book-now">Update</a>
+  <a href="/users/cars/booking/<%= car.carNumber %>" class="book-button book-now">Delete</a>
+</div>

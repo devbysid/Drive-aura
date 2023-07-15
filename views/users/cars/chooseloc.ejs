@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/app.css">
-</head>
-<body>
+<% layout('layouts/boilerplate')%>
     <form class="location-form" action="/users/cars/location" method="POST">
         <label for="city">Select City: </label>
         <select id="city" name="city">
-          <option value="ranchi">Ranchi</option>
+          <option value="Ranchi">Ranchi</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Delhi">Delhi</option>
+          <option value="Kolkata">Kolkata</option>
+          <option value="Bengaluru">Bengaluru</option>
         </select>
         <button type="submit">Submit</button>
     </form>
-</body>
-</html>

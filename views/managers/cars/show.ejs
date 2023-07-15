@@ -1,0 +1,23 @@
+<% layout('layouts/boilerplate')%>
+
+<table class="custom-table">
+    <thead>
+      <tr>
+        <th>Car Name</th>
+        <th>Car Number</th>
+        <th>Status</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% cars.forEach((car) => { %>
+        <tr>
+          <td><%= car.carName %></td>
+          <td><%= car.carNumber %></td>
+          <td><%= car.status %></td>
+          <td><a href="/managers/cars/<%=car.carNumber%>">Details</a></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+  
