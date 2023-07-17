@@ -4,7 +4,7 @@ const passport= require('passport');
 const User=require('../models/user');
 const { isLoggedIn, storeReturnTo } = require('../middleware');
 const Car =require('../models/car');
-const Booking=require('../models/booking');
+const {Booking}=require('../models/booking');
 
 
 router.get('/register',(req,res)=>{
@@ -46,27 +46,30 @@ router.get('/cars/booking/:carNumber',isLoggedIn,async(req,res)=>{
 })    
 
 router.post('/cars/payment',isLoggedIn,async(req,res)=>{
-    const{days,price,bookingDate,CarpickupDate}=req.body;
+    const{days,price,carPickupDate}=req.body;
+    const bookingDate= new Date();
     const carNumber=req.session.carNumber;
     const username=req.user.username;
     const amount=days*price;
     const bookingDetails={
-       bookingDate,
-       CarpickupDate,
-       carNumber,
        username,
-       amount,
+       bookingDate,
+       carPickupDate,
+       carNumber,
+       amount
     }
-    const booking=new Booking()
+    const booking=new Booking(bookingDetails);
+    await booking.save();
     res.render('users/cars/payment',{amount});
 })    
 
 router.post('/cars/confirmation',isLoggedIn,async(req,res)=>{
     const {carNumber}= req.session;
     const {username}= req.user.username;
-    const {status}=req.body;
+    const {paymentStatus}=req.body;
+    await Booking.findOneAndUpdate({carNumber},{paymentStatus});
     const car=await Car.find({carNumber});
-    res.render('users/cars/confirmation',{car,status,username});
+    res.render('users/cars/confirmation',{car,paymentStatus,username});
 })    
 
 
